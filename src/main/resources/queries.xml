@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+<!-- Toto jsem pridal ja   
+  <query name="getCount">
+    <sql>
+      SELECT COUNT(*) FROM (:subSelect) subSelectResult 
+    </sql>
+    <default key="subSelect">SELECT 1 FROM Dual</default>
+  </query>
+Toto jsem pridal ja --> 
+
+  <!-- Nasledujici Oracle dotaz pres ROWNUM je shodny jako MSSQL TOP (jen ORDER BY se musi davat do vnitrniho selectu)  --> 
+  
+  <!-- Toto jsem pridal ja
+  <query name="getTopN">
+    <sql>
+    <![CDATA[
+      SELECT * FROM (:subSelect) WHERE ROWNUM <= :topN
+    ]]>
+    </sql>
+    <default key="topN">123</default>
+    <default key="subSelect">SELECT 1 FROM Dual</default>
+  </query>  
+  
+  <query name="getResultsFromTo">
+    <sql>
+    <![CDATA[
+      SELECT * FROM 
+      (
+          SELECT subselect.*, ROWNUM rownumInternal FROM 
+          (
+              (:subSelect)
+          ) subselect
+          WHERE rownum <= :to
+      )
+      WHERE rownumInternal >= :from
+    ]]>
+    </sql>
+    <default key="from">2</default>
+    <default key="to">7</default>
+    <default key="subSelect">SELECT 1 FROM Dual</default>
+  </query>
+Toto jsem pridal ja-->
+
+<!-- Toto jsem pridal ja
+  <query name="getPersonsBySurnameSelect">
+    <sql>
+        SELECT IdPerson, IdDepartment, IdPersonCategory, IdPosition, PersonalId, LocalHrId, Name, Surname, Degree, Building, Room, Email,
+               PersonAccount, Status, StartDate, LeaveDate, Created, Modified, Enabled, Phone, PhonePrefix, Mobile, MobilePrefix  
+          FROM Person
+      	 WHERE Surname = :surname 
+    </sql>
+    <default key="surname">'Baxa'</default>
+  </query> 
+Toto jsem pridal ja -->
+
+<!-- toto je moje úprava query výše -->
+<query name="getPersonsBySurnameSelect">
+    <sql>
+        SELECT IdPerson, email, name, Surname, PersonalId, PersonAccount
+          FROM rimmer.Person
+      	 <!-- WHERE Surname = :surname  --> 
+    </sql>
+    <!--změněno z  <default key="surname">'Baxa'</default> --> 
+    <default key="surname">'Fajfr'</default>
+  </query> 
+
+</queries>

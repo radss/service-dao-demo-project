@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cz.csob.cc</groupId>
+  <artifactId>service-dao-demo</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>service-dao-demo</name>
+  
+  <properties>
+    <nccCommon.version>1.0.1</nccCommon.version>
+    <spring.version>4.0.2.RELEASE</spring.version>
+    <junit.version>4.11</junit.version>
+    <slf4j.version>1.7.3</slf4j.version>
+    <log4j.version>1.2.12</log4j.version>
+    <easymock.version>3.1</easymock.version>
+    <c3p0.version>0.9.1.2</c3p0.version>
+    <oracle.ojdbc6.version>12.1.0</oracle.ojdbc6.version>
+    <servlet-api.version>3.0.1</servlet-api.version>
+    <jsp-api.version>2.2</jsp-api.version>
+    <simple-xml.version>2.7</simple-xml.version>
+    
+    
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.encoding>utf-8</maven.compiler.encoding>
+  </properties>
+  
+  <dependencies>
+    <!-- Zavislost na vlastnich knihovnach -->
+    <dependency>
+      <groupId>cz.csob.cc</groupId>
+      <artifactId>nccCommon</artifactId>
+      <version>${nccCommon.version}</version>
+    </dependency>
+    
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    
+    <!-- logovani pres slf4j s bindingem na log4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+      
+    <!-- testovani jUnit, EasyMock -->    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>${easymock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Servlet, JSTL, ... -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>${jsp-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
+
+    <!-- Connection pooling c3p0 -->
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>${c3p0.version}</version>
+    </dependency>
+    
+    <!--
+    Oracle JDBC driver bohzel nelze snadno stahnout a poiuzit kvuli politice Oracle musi se nainstalovat rucne, treba z SQLDeveloperu nebo stahnout z netu 
+    mvn install:install-file -Dfile=l:\Programy\sqldeveloper\jdbc\lib\ojdbc6.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar
+    -->
+  <dependency> 
+      <groupId>com.oracle</groupId> 
+      <artifactId>ojdbc6</artifactId> 
+      <version>${oracle.ojdbc6.version}</version> 
+  </dependency> 
+    
+<!-- <dependency>
+    <groupId>oracle</groupId>
+    <artifactId>ojdbc6</artifactId>
+    <version>11.2.0.3</version>
+</dependency>
+    -->
+    
+    <dependency>
+	  <groupId>org.simpleframework</groupId>
+	  <artifactId>simple-xml</artifactId>
+	  <version>${simple-xml.version}</version>
+    </dependency>
+    
+    
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <finalName>service-dao-demo</finalName>
+    
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <inherited>true</inherited>
+        <version>3.6.0</version>
+        <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+            <encoding>${maven.compiler.encoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+	      <artifactId>maven-eclipse-plugin</artifactId>
+	      <version>2.7</version> 
+	      <configuration>
+          <downloadSources>true</downloadSources>
+          <downloadJavadocs>true</downloadJavadocs>
+          <wtpversion>2.0</wtpversion>
+	      </configuration>
+      </plugin> 
+    </plugins>
+  </build>
+   
+</project>

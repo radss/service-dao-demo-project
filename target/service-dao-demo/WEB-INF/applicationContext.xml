@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+   
+  <!-- nasledujici definice umoznuje autowire ve spring komponentach -->
+  <context:annotation-config />
+  <context:component-scan base-package="cz.csob.cc.demo" />
+  
+  <!-- beana, ktera poskytuje vsechny SQL dotazy vcetne jejich obrazu jako sablony pro vykonani -->
+  <!-- můj komentář: tady definuje queries.xml a k tomu potřebuje QueryTemplaterImpl -->
+  <bean id="queryTemplater" class="cz.csob.cc.dao.utils.QueryTemplaterImpl">
+    <constructor-arg name="queriesFile" value="/queries.xml" />
+  </bean>
+  
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+      <property name="driverClass" value="${db.driverClass}" />
+      <property name="jdbcUrl" value="${db.jdbcUrl}" />
+      <property name="acquireIncrement" value="4" />
+      <property name="minPoolSize" value="2" />
+      <property name="initialPoolSize" value="2" />
+      <property name="maxPoolSize" value="8" />
+      <property name="numHelperThreads" value="4" />
+      <property name="maxIdleTimeExcessConnections" value="1800" />
+      <property name="idleConnectionTestPeriod" value="60" />
+      <property name="preferredTestQuery" value="SELECT 1 FROM Dual" />
+      <property name="properties">
+        <props>
+          <prop key="user">${db.user}</prop>
+          <prop key="password">${db.password}</prop>
+        </props>
+      </property>
+  </bean>
+  
+  <!-- Nasledujici definice rikaji, ze transakce budeme realizovat ne deklarativne, ale anotacemi  -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+  
+  <!-- Transakcni manager pro wb, prozatimni pripojeni pro MARKER nebude provadet transakce a bude read-only -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+    
+  <!-- 
+    PropertyPlaceholder umoznuje do spring konfiguraci i beanu davat hodnoty pres sablonu ${klic} z .properties souboru
+    Je mozne definovat vice zdroju, kde se bude nachazet konfiguracni soubor s loginy a hesly na DB, AD aj.
+    Pozdejsi soubor prepisuje nastaveni v predchozim souboru (, pokud existuje; zapnuto ignorovani pokud soubor neexistuje)   
+   -->
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:demo.properties</value>
+        <value>file:/#{ systemProperties['catalina.home'] }/conf/demo.properties</value> 
+      </list>
+    </property>
+    <property name="ignoreResourceNotFound" value="true" />
+  </bean>
+
+</beans>
+  
+ 
